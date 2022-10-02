@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,9 +27,14 @@ public class UserController {
         return "home";
     }
 
-    @PostMapping("/users")
-    public void createUser(@RequestBody User user, HttpServletResponse res) throws Exception {
+    @PostMapping("/register")
+    public void createUser(User user, HttpServletResponse res) throws Exception {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        user.setRole("USER");
+        user.setEnabled(true);
         this.userrepo.save(user);
-        res.sendRedirect("/users");
+        res.sendRedirect("/login");
     }
 }

@@ -1,5 +1,9 @@
 <nav th:fragment="nav">
     <hr/>
+    <a href="/">Home</a><br/>
     <a href="/users">Users</a><br/>
     <a href="/journals">Journals</a>
+    <span sec:authorize="isAuthenticated()">
+        <a href="/logout"><button type="submit">Logout</button></a>
+    </span>
 </nav>

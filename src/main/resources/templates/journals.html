@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,16 +7,18 @@
     <title>Journals</title>
 </head>
 <body>
-    <h1>Journals for <span>user</span></h1>
-    <h2><span th:text="${users.size()}"></span> journals</h2>
-    <section th:each="user: ${users}">
-        <h2 th:text="${user.username}"></h2>
-        <article th:each="journal : ${user.journals}">
-            <p style="width:30vw;">
-                <span th:text="${journal.id}"></span>&nbsp;
-                <span th:text="${journal.entry}"></span>
-            </p>
-        </article>
+    <h1>Journals for <span th:text="${user.username}"></span></h1>
+    <article th:each="journal : ${user.journals}">
+        <p style="width:30vw;padding:1rem;border:dashed 1px gray;">
+            <span th:text="${journal.id}"></span>&nbsp;
+            <span th:text="${journal.entry}"></span>
+        </p>
+    </article>
+    <section>
+        <form th:action="@{/journals}" method="post">
+            <textarea name="entry"></textarea>
+            <button>add entry</button>
+        </form>
     </section>
     <nav th:replace="nav.html :: nav"></nav>
 </body>
